@@ -37,28 +37,24 @@ class Vacancy:
         if not isinstance(other, Vacancy):
             raise ArithmeticError("Правый операнд должен быть Vacancy")
         if isinstance(other, Vacancy):
-
             return self.salary > other.salary
 
     def __ge__(self, other):
         if not isinstance(other, Vacancy):
             raise ArithmeticError("Правый операнд должен быть Vacancy")
         if isinstance(other, Vacancy):
-
             return self.salary >= other.salary
 
     def __lt__(self, other):
         if not isinstance(other, Vacancy):
             raise ArithmeticError("Правый операнд должен быть Vacancy")
         if isinstance(other, Vacancy):
-
             return self.salary <= other.salary
 
     def __le__(self, other):
         if not isinstance(other, Vacancy):
             raise ArithmeticError("Правый операнд должен быть Vacancy")
         if isinstance(other, Vacancy):
-
             return self.salary < other.salary
 
     def __eq__(self, other):

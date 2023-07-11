@@ -1,9 +1,10 @@
 import sys
 from pprint import pprint
-from src.parsing import Api_get_servise_hh, Api_get_servise_sjob
+from src.parsing import Api_get_servise_hh, Api_get_servise_sjob, ExaminationUserWordHH, ExaminationUserWordSJob
 from src.vacancy import Vacancy
 from src.save_to_file import JsonSaveFail
 from src.userinteraction import UserInteraction
+
 # инициализируем класс UserInteraction для взаимодействия с пользователем
 user = UserInteraction()
 
@@ -16,10 +17,23 @@ while True:
         print('Вы ввели stop. Программа завершается.')
         sys.exit()
     else:
-        print('Вы неправильно ввели название платформы или мы не знаем такую платформу. Введите ще раз или введите stop для завершения программы ')
+        print(
+            f'Вы неправильно ввели название платформы или мы не знаем такую платформу. Введите ще раз {user.platforms} или введите stop для завершения программы ')
 
-# ввод наименования вакансии для сбора данных из платформы
-name_vacancy = user.search_query()
+# ввод наименования вакансии для сбора данных из платформы и проверка корректности введеного наименования
+while True:
+    name_vacancy = user.search_query()
+    examination_hh = ExaminationUserWordHH(name_vacancy)
+    examination_sjob = ExaminationUserWordHH(name_vacancy)
+    if examination_hh.my_vacancies_data() == []:
+        print(
+            f"По вакансии {name_vacancy} ничего не найдено в {user.platforms[0]} или наименование введено некорректно. Проверьте корректность введенного наименования вакансии или введите другое наименование")
+    elif examination_sjob.my_vacancies_data() == []:
+        print(
+            f"По вакансии {name_vacancy} ничего не найдено в {user.platforms[1]} или наименование введено некорректно. Проверьте корректность введенного наименования вакансии или введите другое наименование")
+    else:
+        break
+
 # ввод названия фала для сохранения вакансий в json файл
 name_file = user.file_name()
 # ввод чила вакансий для отбора топ N вакансий и записих их в файл

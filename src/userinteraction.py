@@ -40,6 +40,7 @@ class UserInteraction:
         '''
         filter_user_salary = int(input("Введите сумму для отбора вакансий заработной платы  "))
         return filter_user_salary
+
     def filter_city(self):
         '''
         запрашивает у пользователя наименование города для фильтрации вакансий из файла
