@@ -91,3 +91,11 @@ class Api_get_servise_sjob(Api_get_servise):
             my_vacancies.append(my_dict_vacancies)
 
         return my_vacancies
+
+
+class ExaminationUserWordHH(Api_get_servise_hh):
+    pass
+
+
+class ExaminationUserWordSJob(Api_get_servise_sjob):
+    pass
