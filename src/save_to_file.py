@@ -13,15 +13,19 @@ class Save_to_file(ABC):
         pass
 
     @abstractmethod
-    def get_info_vacancy_name(self, text):
+    def save_vacancies_top(self, name_file: str, vacancies: list):
         pass
 
     @abstractmethod
-    def get_info_vacancy_salary(self, text):
+    def get_info_vacancy_city(self, city: str):
         pass
 
     @abstractmethod
-    def delete_vacancy(self, vacancy):
+    def get_info_vacancy_salary(self, number: int):
+        pass
+
+    @abstractmethod
+    def delete_vacancy(self, id_vacancy: str):
         pass
 
 
