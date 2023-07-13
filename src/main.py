@@ -101,4 +101,4 @@ user_city_filter = json_saver.get_info_vacancy_name(city_user)
 json_saver.save_vacancies_top('vacancies_user_city', user_city_filter)
 
 # удаление вакансии по id необходимо ввести id
-json_saver.delete_vacancy()
+json_saver.delete_vacancy('83041941')
