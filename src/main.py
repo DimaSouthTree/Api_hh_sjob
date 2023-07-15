@@ -1,8 +1,8 @@
 import sys
 from pprint import pprint
-from src.parsing import Api_get_servise_hh, Api_get_servise_sjob, ExaminationUserWordHH, ExaminationUserWordSJob
+from src.parsing import ApiGeServiceHH, ApiGeServiceSJob, ExaminationUserWordHH, ExaminationUserWordSJob
 from src.vacancy import Vacancy
-from src.save_to_file import JsonSaveFail
+from src.save_to_file import JsonSaveFile
 from src.userinteraction import UserInteraction
 
 # инициализируем класс UserInteraction для взаимодействия с пользователем
@@ -24,7 +24,7 @@ while True:
 while True:
     name_vacancy = user.search_query()
     examination_hh = ExaminationUserWordHH(name_vacancy)
-    examination_sjob = ExaminationUserWordHH(name_vacancy)
+    examination_sjob = ExaminationUserWordSJob(name_vacancy)
     if examination_hh.my_vacancies_data() == []:
         print(
             f"По вакансии {name_vacancy} ничего не найдено в {user.platforms[0]} или наименование введено некорректно. Проверьте корректность введенного наименования вакансии или введите другое наименование")
@@ -46,10 +46,13 @@ city_user = user.filter_city()
 # инициализируем класс для работы с платформой выбранной пользователем
 if platform == user.platforms[0]:
     print('Вы выбрали HeadHunter. Осущевствляем сбор данных.')
-    user_vacancies = Api_get_servise_hh(name_vacancy)
+    user_vacancies = ApiGeServiceHH(name_vacancy)
 elif platform == user.platforms[1]:
     print('Вы выбрали SuperJob. Осущевствляем сбор данных.')
-    user_vacancies = Api_get_servise_sjob(name_vacancy)
+    user_vacancies = ApiGeServiceSJob(name_vacancy)
+
+print(f"Найдены вакансии по вашему запросу {name_vacancy}. Они будут добавлены в общий файл {name_file}")
+pprint(user_vacancies.my_vacancies_data())
 
 # инициализация класса Vacancy массивом вакансий с необходимыми атрибутами
 vacancies = [Vacancy(data) for data in user_vacancies.my_vacancies_data()]
@@ -80,7 +83,7 @@ for vacancy in vacancies_sorted:
         vacancies_sorted_UZS.append(data)
 
 # Инициализация класса JsonSaveFail по имени файла для добавления всех вакансий в файл
-json_saver = JsonSaveFail(name_file)
+json_saver = JsonSaveFile(name_file)
 for vacancy in vacancies:
     data = vacancy.vacancy_dict()
     json_saver.add_vacancy(data)
@@ -95,9 +98,13 @@ json_saver.save_vacancies_top('top_vacancies_UZS', vacancies_sorted_UZS[-number_
 
 # получение вакансий по фильтру заработной платы из файла и сохранение в отдельный файл
 user_salary_filter = json_saver.get_info_vacancy_name(salary_user)
+print(f"Отобраны вакансии по вашему фильтру заработная плата {salary_user}. Они будут добавлены в общий файл 'vacancies_user_salary'")
+pprint(user_salary_filter)
 json_saver.save_vacancies_top('vacancies_user_salary', user_salary_filter)
 # получение вакансий по фильтру наименования города из файла и сохранение в отдельный файл
 user_city_filter = json_saver.get_info_vacancy_name(city_user)
+print(f"Отобраны вакансии по вашему фильтру город {city_user}. Они будут добавлены в общий файл 'vacancies_user_city'")
+pprint(user_city_filter)
 json_saver.save_vacancies_top('vacancies_user_city', user_city_filter)
 
 # удаление вакансии по id необходимо ввести id

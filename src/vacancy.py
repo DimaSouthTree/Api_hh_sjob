@@ -3,7 +3,7 @@ class Vacancy:
     Класс для работы с вакансиями. Сравнение по зарплате.
     """
 
-    def __init__(self, my_vacancies_dict):
+    def __init__(self, my_vacancies_dict: dict):
         self.id = my_vacancies_dict['id_vacancy']
         self.name = my_vacancies_dict['vacancy']
         self.url = my_vacancies_dict['url']

@@ -2,9 +2,10 @@ from abc import ABC, abstractmethod
 from pprint import pprint
 import requests
 import json
+import os
 
 
-class Api_get_servise(ABC):
+class ApiGetService(ABC):
 
     def __init__(self):
         pass
@@ -13,21 +14,21 @@ class Api_get_servise(ABC):
         pass
 
 
-class Api_get_servise_hh(Api_get_servise):
+class ApiGeServiceHH(ApiGetService):
     """
         Класс для подключения по АПИ к hh.ru. Реализованы два метода один возвращает данные о вакансиях в формате Json. Второй метод возвращает массив вакансий с необходимыми полями.
         """
     url = "https://api.hh.ru/vacancies?only_with_salary=true"
 
-    def __init__(self, text):
-        self.name_text = text
+    def __init__(self, user_name_vacancy: str):
+        self.name_vacancy = user_name_vacancy
 
     def get_service(self):
         """
         Отправляет Get запрос к сайту hh.ru с поиском вакансии по наименованю.
         :return: данные о вакансиях в формате Json.
         """
-        hh_info = requests.get(Api_get_servise_hh.url, params={'text': f'NAME:{self.name_text}',
+        hh_info = requests.get(ApiGeServiceHH.url, params={'text': f'NAME:{self.name_vacancy}',
                                                                'per_page': 100})
         return hh_info.json()['items']
 
@@ -56,24 +57,23 @@ class Api_get_servise_hh(Api_get_servise):
         return my_vacancies
 
 
-class Api_get_servise_sjob(Api_get_servise):
+class ApiGeServiceSJob(ApiGetService):
     """
     Класс для подключения по АПИ к super.job. Реализованы два метода один возвращает данные о вакансиях в формате Json. Второй метод возвращает массив вакансий с необходимыми полями.
     """
-    API_KEY = {
-        "X-Api-App-Id": "v3.r.137645209.b47468e74b48a5fb3a8923a38104bf7bf9405bc5.c332503b8cc95ce4034c399dae34c4042e4a09bc"}
+    API_KEY = str = os.getenv('API_KEY_SJob')
     url = "https://api.superjob.ru/2.0/vacancies"
 
-    def __init__(self, text):
-        self.name_text = text
+    def __init__(self, user_name_vacancy: str):
+        self.name_vacancy = user_name_vacancy
 
     def get_service_job(self):
         """
                 Отправляет Get запрос к сайту super.job с поиском вакансии по ключевому слову.
                 :return: данные о вакансиях в формате Json.
                 """
-        job_info = requests.get(Api_get_servise_sjob.url, headers=Api_get_servise_sjob.API_KEY,
-                                params={'keyword': self.name_text})
+        job_info = requests.get(ApiGeServiceSJob.url, headers=ApiGeServiceSJob.API_KEY,
+                                params={'keyword': self.name_vacancy})
 
         return job_info.json()['objects']
 
@@ -93,9 +93,9 @@ class Api_get_servise_sjob(Api_get_servise):
         return my_vacancies
 
 
-class ExaminationUserWordHH(Api_get_servise_hh):
+class ExaminationUserWordHH(ApiGeServiceHH):
     pass
 
 
-class ExaminationUserWordSJob(Api_get_servise_sjob):
+class ExaminationUserWordSJob(ApiGeServiceSJob):
     pass

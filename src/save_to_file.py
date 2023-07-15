@@ -3,7 +3,7 @@ import json
 from abc import ABC, abstractmethod
 
 
-class Save_to_file(ABC):
+class SaveToFile(ABC):
 
     def __init__(self):
         pass
@@ -29,7 +29,7 @@ class Save_to_file(ABC):
         pass
 
 
-class JsonSaveFail(Save_to_file):
+class JsonSaveFile(SaveToFile):
 
     def __init__(self, title):
         self.name_file = title
@@ -47,14 +47,20 @@ class JsonSaveFail(Save_to_file):
             with open(f'{self.name_file}.json', 'w') as file:
                 json.dump(data, file, indent=3, ensure_ascii=False)
         else:
-            with open(f'{self.name_file}.json', 'r') as file_app:
-                data_file = json.load(file_app)
+            with open(f'{self.name_file}.json', 'r') as file:
+                data_file = json.load(file)
                 data_file.append(vacancy)
 
-            with open(f'{self.name_file}.json', 'w') as file_app:
-                json.dump(data_file, file_app, indent=3, ensure_ascii=False)
+            with open(f'{self.name_file}.json', 'w') as file:
+                json.dump(data_file, file, indent=3, ensure_ascii=False)
 
     def save_vacancies_top(self, name_file: str, vacancies: list):
+        '''
+        метод сохраняет список вакансий в JSon фаил после отбора по фильтрам пользователя
+        :param name_file: название файла
+        :param vacancies: список вакансий
+        :return:
+        '''
         with open(f'{name_file}.json', 'w') as file:
             json.dump(vacancies, file, indent=3, ensure_ascii=False)
 
@@ -73,7 +79,7 @@ class JsonSaveFail(Save_to_file):
 
         return info_vacancy_city
 
-    def get_info_vacancy_salary(self, number: int):
+    def get_info_vacancy_salary(self, salary: int):
         '''
         метод для получение инфомации о ваакансих из файла с отбором по заработной плате
         :param number: сумм заработной платы которая интересует пользователя int
@@ -85,7 +91,7 @@ class JsonSaveFail(Save_to_file):
             print(data_file)
             for idx, txt in enumerate(data_file):
                 print(idx, txt)
-                if number == txt['salary']:
+                if salary == txt['salary']:
                     info_vacancy_salary.append(data_file[idx])
 
         return info_vacancy_salary
@@ -96,8 +102,8 @@ class JsonSaveFail(Save_to_file):
         :param id_vacancy: id вакансии str
         :return: перезаписыввает файл
         '''
-        with open(f'{self.name_file}.json', 'r') as file_dell:
-            data_file = json.load(file_dell)
+        with open(f'{self.name_file}.json', 'r') as file:
+            data_file = json.load(file)
             for idx, txt in enumerate(data_file):
                 # print(idx, txt)
                 if txt['id_vacancy'] == id_vacancy:
@@ -105,5 +111,5 @@ class JsonSaveFail(Save_to_file):
                     data_file.pop(idx)
                     break
 
-        with open(f'{self.name_file}.json', 'w') as file_dell:
-            json.dump(data_file, file_dell, indent=3, ensure_ascii=False)
+        with open(f'{self.name_file}.json', 'w') as file:
+            json.dump(data_file, file, indent=3, ensure_ascii=False)
