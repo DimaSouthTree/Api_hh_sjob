@@ -22,29 +22,37 @@ class UserInteraction:
         return key_word
 
     def file_name(self):
-        title = input('Введите наименования файла для сохранения вакансий в файл: ')
-        return title
+        '''
+        метод запрашивает у пользователя название файла, куда будем добавлять вакансии.
+        :return: название файла
+        '''
+        title_file = input('Введите наименования файла для сохранения вакансий в файл: ')
+        return title_file
 
     def top_n_salary(self):
         '''
         Метод для ввода числа вакансий для формирования списка с самыми большими зарплатами.
         :return: число вакансий int
         '''
-        top_salary = int(input("Введите число для вывода количества вакансий топ N по заработной плате: "))
-        return top_salary
+        number_top_salary = int(input("Введите число для вывода количества вакансий топ N по заработной плате: "))
+        return number_top_salary
 
     def filter_salary(self):
         '''
         запрашивает у пользователя сумму заработной платы для фильтрации вакансий из файла
         :return:
         '''
-        filter_user_salary = int(input("Введите сумму для отбора вакансий заработной платы  "))
-        return filter_user_salary
+        filter_salary = int(input("Введите сумму для отбора вакансий заработной платы  "))
+        return filter_salary
 
     def filter_city(self):
         '''
         запрашивает у пользователя наименование города для фильтрации вакансий из файла
         :return:
         '''
-        filter_user_city = int(input("Введите сумму для отбора вакансий заработной платы  "))
-        return filter_user_city
+        filter_city = int(input("Введите сумму для отбора вакансий заработной платы  "))
+        return filter_city
+
+    # def job_delete_user(self):
+    #     answer_user_delete = input('Вы хотите удалить вакансию из файла? ')
+    #     return answer_user_delete
